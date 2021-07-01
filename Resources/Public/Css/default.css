@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+
+/**************************************************************
+ * BXSLIDER - START
+ *************************************************************/
+ .bxslider img
+ {
+ 	height: auto;
+ }
+/**************************************************************
+ * BXSLIDER - START
+ *************************************************************/
+body{
+	height:100%;
+
+}
+.content{
+	position:relative;
+	margin-bottom:200px;
+	
+}
+ .footer{
+	
+	 
+	 color:darkgrey;
+	 height:100px;
+
+	position:fixed;
+	 bottom: 0;
+	 width: 100%;
+	 background-color:#f8f9fa!important;
+
+
+ }
+
+ .table{
+	 margin-top: 100px;
+ }
+

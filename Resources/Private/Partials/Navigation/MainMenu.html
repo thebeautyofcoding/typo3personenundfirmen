@@ -1,0 +1,39 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+    <nav class='navbar navbar-expand-lg navbar-light bg-light '>
+        <f:security.ifAuthenticated><f:link.page pageUid="2" >Personen&Firmen</f:link.page></f:security.ifAuthenticated>
+        <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
+            <span class='navbar-toggler-icon'></span>
+        </button>
+
+        <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+            <ul class='navbar-nav mr-auto '>
+        
+              <f:for each="{mainNavigation}" as="menuItem">
+                  <f:if condition="{menuItem.current}">
+
+                  <f:then>
+                    <li class='nav-item d-flex justify-content-between '>
+                        <a class='nav-link active' href="{menuItem.link}" target="{menuItem.target}">{menuItem.title}</a>
+                    </li>
+                  </f:then>
+                  <f:else>
+                    <li class='nav-item '>
+                        <a class='nav-link' href="{menuItem.link}" target="{menuItem.target}">{menuItem.title}</a>
+                    </li>
+                   
+                    <!-- <f:comment><f:link.action action="create" class="nav-link" title="{menuItem.title}" /></f:comment> -->
+                                
+                  
+                  </f:else>
+                  </f:if>
+
+                
+      
+
+              </f:for>
+        
+            </ul>
+        
+        </div>
+    </nav>
+</html>
