@@ -1,0 +1,53 @@
+
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+
+
+<f:form.select name="ajaxPageLimit"  id="ajaxPageLimit"class="form-control">
+    <f:form.select.option value="{defaultLimit}">{defaultLimit}</f:form.select.option>
+    <f:for each="{limits}" as="limit">
+        <f:if condition="{defaultLimit}!={limit}">
+   <f:form.select.option value="{limit}">{limit}</f:form.select.option>
+   </f:if>
+</f:for>
+</f:form.select>
+    <f:form.hidden name="uri_hidden" id="uri_hidden" value="<f:uri.action  action='ajaxList' />" /> 
+
+</html>
+    <script>
+
+$(document).ready(function(){
+
+$('#ajaxPageLimit').change(function(){
+
+            var val = $('#ajaxPageLimit').val();
+            var controllerpath = $("#uri_hidden").val();
+            console.log(controllerpath)
+            $.ajax({
+                type:"POST",
+                url: controllerpath,
+                data:{'ajaxPageLimit':val},
+                success:function(response) {
+                    $('[id=tr]').each(function(){
+                       $(this).fadeOut().promise().done(()=>{
+                        $(this).remove()
+                       })
+
+                       }
+                  )
+                       
+                       
+
+                 
+                      
+                        var tableRows=$(response).find('#tr')
+                       $('#trHeader').after(tableRows)
+                 
+                }
+})
+
+})   
+
+})
+
+ </script>

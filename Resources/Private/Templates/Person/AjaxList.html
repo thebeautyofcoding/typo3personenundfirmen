@@ -1,6 +1,6 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:layout name="Default" />
-
+<f:debug>{_all}</f:debug>
 This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -14,7 +14,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <div class="d-flex flex-column  justify-content-center">
 <f:section name="content" >
     
-    <f:render partial="Person/PageLimit" arguments="{limits:data.pageLimit, defaultLimit:data.defaultLimit}"/>
+    <f:render partial="Person/PageLimit" arguments="{limits:data.pageLimit}"/>
     <div class="d-flex flex-column justify-content-center align-items-center table">
     <h1>Personen</h1>
 
@@ -23,7 +23,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
     <f:form action="deleteMultipleEntries" method="POST" object="{person}" class="mb-2">
     <table  class="tx_heiner table table-striped container" >
-        <tr id='trHeader'>
+        <tr>
             <th scope="col"><f:translate key="tx_heiner_domain_model_person.anrede" /></th>
             <th scope="col"><f:translate key="tx_heiner_domain_model_person.vorname" /></th>
             <th scope="col"><f:translate key="tx_heiner_domain_model_person.nachname" /></th>
@@ -84,7 +84,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:link.action
                         arguments="{pageNumber: page}"
                         class="page-link"
-                        action="list"
+                        action="ajaxList"
                         >Previous</f:link.action
                     >
                 </li>
@@ -95,7 +95,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:link.action
                         arguments="{pageNumber: page}"
                         class="page-link"
-                        action="list"
+                        action="ajaxList"
                         >Previous</f:link.action
                     >
                 </li>
@@ -113,7 +113,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                 <f:link.action
                                     arguments="{pageNumber: page}"
                                     class="page-link"
-                                    action="list"
+                                    action="ajaxList"
                                     >{page}</f:link.action
                                 >
                             </li>
@@ -124,7 +124,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                 <f:link.action
                                     arguments="{pageNumber: page}"
                                     class="page-link"
-                                    action="list"
+                                    action="ajaxList"
                                     >{page}</f:link.action
                                 >
                             </li>
@@ -140,7 +140,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:link.action
                         arguments="{pageNumber: data.nextPage}"
                         class="page-link"
-                        action="list"
+                        action="ajaxList"
                         >Next</f:link.action
                     >
                 </li>
@@ -151,7 +151,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:link.action
                         arguments="{pageNumber: data.nextPage}"
                         class="page-link"
-                        action="list"
+                        action="ajaxList"
                         >Next</f:link.action
                     >
                 </li>

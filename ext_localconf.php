@@ -9,12 +9,12 @@ call_user_func(
             'Heiner.Heiner',
             'Persons',
             [
-                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries',
+                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList',
                 'Company' => 'list, show, new, create, edit, update, delete'
             ],
             // non-cacheable actions
             [
-                'Person' => 'list, show, new, create, edit, update, delete,deleteMultipleEntries',
+                'Person' => 'list, show, new, create, edit, update, delete,deleteMultipleEntries, ajaxList',
                 'Company' => 'list, show, new, create, edit, update, delete'
             ]
         );
@@ -24,13 +24,13 @@ call_user_func(
             'Companies',
             [
                 'Company' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries',
-                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries',
+                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList',
                 
             ],
             // non-cacheable actions
             [
                 'Company' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries',
-                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries'
+                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList'
                 
             ]
         );

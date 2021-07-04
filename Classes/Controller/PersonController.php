@@ -57,14 +57,18 @@ class PersonController extends
     public function listAction()
     {
         $currentPage = $this->request->getArguments()['pageNumber'];
-
+      
         if (empty($currentPage)) {
             $currentPage = 1;
         }
-        $currentPage = (int) $currentPage;
-        $limit = (int) $this->settings['limit'];
-        $data = $this->personRepository->pagination($currentPage, $limit);
 
+        $currentPage = (int) $currentPage;
+
+        // $limit = (int) $this->settings['limit'];
+
+
+        $data = $this->personRepository->pagination($currentPage, $limit);
+        $data['pageLimit'] = [2, 4,5, 6, 8, 10];
         $data['currentPage'] = $currentPage;
         $data['nextPage'] = $currentPage + 1;
         $data['previousPage'] = $currentPage - 1;
@@ -72,10 +76,43 @@ class PersonController extends
         $loggedInUser = $GLOBALS['TSFE']->fe_user->user;
 
         $data['loggedInUser'] = $loggedInUser;
-
+   $data['defaultLimit']=$this->settings['limit'];
         $this->view->assign('data', $data);
     }
 
+    public function ajaxListAction()
+    {
+     
+        $ajaxPageLimit = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
+            'ajaxPageLimit'
+        );
+   
+        $currentPage = $this->request->getArguments()['pageNumber'];
+
+        if (empty($currentPage)) {
+            $currentPage = 1;
+        }
+
+        $currentPage = (int) $currentPage;
+        $ajaxPageLimit = (int) $ajaxPageLimit;
+
+        $data = $this->personRepository->pagination(
+            $currentPage,
+            $ajaxPageLimit
+        );
+        $this->settings['ajaxPageLimit']=$ajaxPageLimit;
+         $data['pageLimit'] = [2, 4, 6, 8, 10];
+        $data['currentPage'] = $currentPage;
+        $data['nextPage'] = $currentPage + 1;
+        $data['previousPage'] = $currentPage - 1;
+
+        $loggedInUser = $GLOBALS['TSFE']->fe_user->user;
+
+        $data['loggedInUser'] = $loggedInUser;
+     $data['defaultLimit']=$this->settings['limit'];
+        $this->view->assign('data', $data);
+       
+    }
     /**
      * action show
      *
@@ -116,8 +153,6 @@ class PersonController extends
      */
     public function createAction(\Heiner\Heiner\Domain\Model\Person $newPerson)
     {
-        var_dump($newPerson);
-        exit();
         // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($newPerson);
 
         // $firmaId = $newPerson->getFirmenname();
