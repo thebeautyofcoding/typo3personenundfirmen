@@ -81,19 +81,22 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <f:then>
                      <ul class="pagination ">
                 <li class="page-item disabled">
-                    <button
+                    <f:form.button
+                    id="previousButton"
+                    
                         class="page-link"
-                       
-                        >Previous</button
+                        >Previous</f:form.button
                     >
                 </li>
             </f:then>
             <f:else>
                                  <ul class="pagination">
                 <li class="page-item ">
-                    <button
+                   <f:form.button
+                    id="previousButton"
+                    value="{data.previousPage}"
                         class="page-link"
-                        >Previous</button
+                        >Previous</f:form.button
                     >
                 </li>
             </f:else>
@@ -132,18 +135,22 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <f:if condition="{data.currentPage}=={data.totalPages}">
             <f:then>
                               <li class="page-item disabled">
-                    <button
+                    <f:form.button
+                    value="{data.currentPage}"
+                            id="nextButton"
                                     class="page-link"
-                        >Next</button
+                        >Next</f:form.button
                     >
                 </li>
             </f:then>
             <f:else>
                                  
                        <li class="page-item">
-                    <button
+                 <f:form.button
+                    value="{data.currentPage+1}"
+                            id="nextButton"
                                     class="page-link"
-                        >Next</button
+                        >Next</f:form.button
                     >
                 </li>
             </f:else>
