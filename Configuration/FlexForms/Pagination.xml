@@ -1,4 +1,4 @@
-<!-- <T3DataStructure>
+<T3DataStructure>
     <sheets>
         <sDEF>
             <ROOT>
@@ -13,7 +13,7 @@
                            <label>Entries per page</label>
                             <config>
                                <type>input</type>
-                           
+                                
                             </config>
                         </TCEforms>
                     </settings.limit>
@@ -25,4 +25,4 @@
             </ROOT>
         </sDEF>
     </sheets>
-</T3DataStructure> -->
+</T3DataStructure>

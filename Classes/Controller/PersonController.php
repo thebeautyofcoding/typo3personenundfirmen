@@ -57,7 +57,7 @@ class PersonController extends
     public function listAction()
     {
         $currentPage = $this->request->getArguments()['pageNumber'];
-      
+
         if (empty($currentPage)) {
             $currentPage = 1;
         }
@@ -65,10 +65,11 @@ class PersonController extends
         $currentPage = (int) $currentPage;
 
         // $limit = (int) $this->settings['limit'];
-
+        $limit = $this->settings['limit'];
+        $limit = (int) $limit;
 
         $data = $this->personRepository->pagination($currentPage, $limit);
-        $data['pageLimit'] = [2, 4,5, 6, 8, 10];
+        $data['pageLimit'] = [2, 4, 5, 6, 8, 10];
         $data['currentPage'] = $currentPage;
         $data['nextPage'] = $currentPage + 1;
         $data['previousPage'] = $currentPage - 1;
@@ -76,21 +77,24 @@ class PersonController extends
         $loggedInUser = $GLOBALS['TSFE']->fe_user->user;
 
         $data['loggedInUser'] = $loggedInUser;
-   $data['defaultLimit']=$this->settings['limit'];
+        $data['defaultLimit'] = $this->settings['limit'];
         $this->view->assign('data', $data);
     }
 
     public function ajaxListAction()
     {
-     
+        
         $ajaxPageLimit = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
             'ajaxPageLimit'
         );
-   
-        $currentPage = $this->request->getArguments()['pageNumber'];
+        $currentPage = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
+            'pageNumber'
+        );
+
+    
 
         if (empty($currentPage)) {
-            $currentPage = 1;
+            $currentPage =1;
         }
 
         $currentPage = (int) $currentPage;
@@ -100,8 +104,11 @@ class PersonController extends
             $currentPage,
             $ajaxPageLimit
         );
-        $this->settings['ajaxPageLimit']=$ajaxPageLimit;
-         $data['pageLimit'] = [2, 4, 6, 8, 10];
+   
+        $data['pageLimit']= $ajaxPageLimit;
+      
+
+        $data['pageLimit'] = [2, 4, 6, 8, 10];
         $data['currentPage'] = $currentPage;
         $data['nextPage'] = $currentPage + 1;
         $data['previousPage'] = $currentPage - 1;
@@ -109,9 +116,8 @@ class PersonController extends
         $loggedInUser = $GLOBALS['TSFE']->fe_user->user;
 
         $data['loggedInUser'] = $loggedInUser;
-     $data['defaultLimit']=$this->settings['limit'];
+        $data['defaultLimit'] = $ajaxPageLimit;
         $this->view->assign('data', $data);
-       
     }
     /**
      * action show

@@ -21,7 +21,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <f:flashMessages />
 
 
-    <f:form action="deleteMultipleEntries" method="POST" object="{person}" class="mb-2">
+    <f:form  id="table"action="deleteMultipleEntries" method="POST" object="{person}" class="mb-2">
     <table  class="tx_heiner table table-striped container" >
         <tr id='trHeader'>
             <th scope="col"><f:translate key="tx_heiner_domain_model_person.anrede" /></th>
@@ -75,28 +75,28 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <button class="btn btn-danger ml-2" type="submit">Löschen</button>
 </div>
 </f:form>
-    <div class="d-flex justify-content-center">
+     <div class="d-flex justify-content-center" id="paginationContainer">
         <nav aria-label="Page navigation example"></nav>
         <f:if condition="{data.currentPage}==1">
             <f:then>
-                     <ul class="pagination">
+                     <ul class="pagination ">
                 <li class="page-item disabled">
-                    <f:link.action
-                        arguments="{pageNumber: page}"
+                    <f:form.button
+                    id="previousButton"
                         class="page-link"
-                        action="list"
-                        >Previous</f:link.action
+                       value="{page-1}"
+                        >Previous</f:form.button
                     >
                 </li>
             </f:then>
             <f:else>
                                  <ul class="pagination">
                 <li class="page-item ">
-                    <f:link.action
-                        arguments="{pageNumber: page}"
+                    <f:form.button
+                    id="previousButton"
+                    value="{page-1}"
                         class="page-link"
-                        action="list"
-                        >Previous</f:link.action
+                        >Previous</f:form.button
                     >
                 </li>
             </f:else>
@@ -110,23 +110,22 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:if condition="{page}=={data.currentPage}">
                         <f:then>
                             <li class="page-item disabled">
-                                <f:link.action
-                                    arguments="{pageNumber: page}"
+                                <f:form.button
+                                id="pageButton"
                                     class="page-link"
-                                    action="list"
-                                    >{page}</f:link.action
+                                
+                                    >{page}</f:form.button
                                 >
                             </li>
                         </f:then>
                         <f:else>
                             <f:debug>{page}</f:debug>
                             <li class="page-item">
-                                <f:link.action
-                                    arguments="{pageNumber: page}"
+                                <f:form.button
+                                id="nextButton"
+                                
                                     class="page-link"
-                                    action="list"
-                                    >{page}</f:link.action
-                                >
+                                    >{page}</f:form.button>
                             </li>
                         </f:else>
                     </f:if>
@@ -137,22 +136,21 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <f:if condition="{data.currentPage}=={data.totalPages}">
             <f:then>
                               <li class="page-item disabled">
-                    <f:link.action
-                        arguments="{pageNumber: data.nextPage}"
-                        class="page-link"
-                        action="list"
-                        >Next</f:link.action
+                    <f:form.button
+                    value="{data.currentPage+1}"
+                            id="nextButton"        class="page-link"
+                        >Next</f:form.button
                     >
                 </li>
             </f:then>
             <f:else>
-                                 <ul class="pagination">
+                                 
                        <li class="page-item">
-                    <f:link.action
-                        arguments="{pageNumber: data.nextPage}"
-                        class="page-link"
-                        action="list"
-                        >Next</f:link.action
+                    <f:form.button
+                    value="{data.currentPage+1}"
+                            id="nextButton"
+                                    class="page-link"
+                        >Next</f:form.button
                     >
                 </li>
             </f:else>

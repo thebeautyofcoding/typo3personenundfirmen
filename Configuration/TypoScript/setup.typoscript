@@ -18,13 +18,14 @@ page{
    }
 
    includeJSLibs{
+	  jquery=EXT:heiner/Resources/Public/jquery/js/ajaxPagination.js
         jquery=EXT:heiner/Resources/Public/jquery/js/jquery-3.3.1.slim.min.js
        popper=EXT:heiner/Resources/Public/Popper/js/popper.min.js
        bootstrap=EXT:heiner/Resources/Public/Bootstrap/js/bootstrap.min.js
    }
 
    includeJSFooterlibs{
- 
+  jquery=EXT:heiner/Resources/Public/jquery/js/ajaxPagination.js
    }
 
    config {
