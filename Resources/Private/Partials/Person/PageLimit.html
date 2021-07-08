@@ -21,15 +21,15 @@ $(document).ready(function(){
     $('#ajaxPageLimit').change(function(){
         
         var val = $('#ajaxPageLimit').val();
-        console.log($('.page-item.disabled'))
+      
         const pageNumber= $('.page-item.disabled').find('#pageButton').val()
-        console.log(pageNumber)
+      
         var controllerpath = $("#uri_hidden").val();
        
         $.ajax({
             type:"POST",
             url: controllerpath,
-            data:{'ajaxPageLimit':val, 'pageNumber':pageNumber},
+            data:{'ajaxPageLimit':val, 'pageNumber':1},
             success:function(response) {
                 $('[id=tr]').each(function(){
                 $(this).fadeOut().promise().done(()=>{
