@@ -68,38 +68,38 @@ $(document).ready(function () {
         }
 
     })
-    // $("#searchInput").on("keyup", function () {
+    $("#searchInput").on("keyup", function () {
 
-    //     var query = $(this).val().toLowerCase().trim();
-    //     var personProperty = $('#personProperty').val();
-    //     var limit = $('#ajaxPageLimit').val();
-    //     console.log(limit)
-    //     $.ajax({
-    //         url: $('#uri_hiddenSearch').val().trim(), // separate file for search
-    //         data: {
-    //             'query': query,
-    //             'personProperty': personProperty,
-    //             'limit': limit,
-    //             'currentPage': 1
-    //         },
-    //         method: 'POST',
+        var query = $(this).val().toLowerCase().trim();
+        var personProperty = $('#personProperty').val();
+        var limit = $('#ajaxPageLimit').val();
+        console.log(limit)
+        $.ajax({
+            url: $('#uri_hiddenSearch').val().trim(), // separate file for search
+            data: {
+                'query': query,
+                'personProperty': personProperty,
+                'limit': limit,
+                'currentPage': 1
+            },
+            method: 'POST',
 
-    //         success: function (response) {
-    //             $('#myTable #tr').remove()
-    //             var tableRows = $(response).find('#tr')
+            success: function (response) {
+                $('#myTable #tr').remove()
+                var tableRows = $(response).find('#tr')
 
-    //             $('#trHeader').after(tableRows)
-    //             $('#paginationContainer').remove()
+                $('#trHeader').after(tableRows)
+                $('#paginationContainer').remove()
 
-    //             var pagination = $(response).find('#paginationContainer')
-    //             $('#table').after(pagination)
+                var pagination = $(response).find('#paginationContainer')
+                $('#table').after(pagination)
 
-    //         },
-    //         error: function () {
-    //             alert("something has gone wrong");
-    //         }
-    //     });
-    // });
+            },
+            error: function () {
+                alert("something has gone wrong");
+            }
+        });
+    });
 
 
     // Disable CreateNew-Button, if no Company was chosen
@@ -113,9 +113,6 @@ $(document).ready(function () {
     })
 
 
-
-    //pagination via ajax
-    //
     $(this).on('click', ':button.page-link, :button#nextButton, :button#previousButton', function () {
 
         var currentPageNumber = $(this).val();
