@@ -34,7 +34,7 @@ class CompanyController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     }
 
     /**
-     * action list
+     * list action with pagination implemented
      * 
      * @return void
      */
@@ -45,20 +45,22 @@ class CompanyController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             $currentPage = 1;
         }
         $currentPage = (int) $currentPage;
-        
-        $data = $this->companyRepository->pagination($currentPage);
+        $limit = (int) $this->settings['limitForCompanies'];
+        $data = $this->companyRepository->pagination($currentPage, $limit);
         
         $data['currentPage'] = $currentPage;
         $data['nextPage']=$currentPage+1;
         $data['previousPage']=$currentPage-1;
  
-        
         $loggedInUser= $GLOBALS['TSFE']->fe_user->user;
-
-     
         $data['loggedInUser']=$loggedInUser;
-     
- 
+      
+        
+
+      
+
+            
+        
         $this->view->assign('data', $data);
     }
 
@@ -68,22 +70,23 @@ class CompanyController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * @param \Heiner\Heiner\Domain\Model\Company $company
      * @return void
      */
-    public function showAction(\Heiner\Heiner\Domain\Model\Company $company)
-    {
-        $this->view->assign('company', $company);
-    }
+    // public function showAction(\Heiner\Heiner\Domain\Model\Company $company)
+    // {
+    //     $this->view->assign('company', $company);
+    // }
 
     /**
-     * action new
+     * new action, showing the the new view with input fields to be filled out
      * 
      * @return void
      */
+    
     public function newAction()
     {
     }
 
     /**
-     * action create
+     * create Action: getting the new domain model instance of a company and adding it to the database
      * 
      * @param \Heiner\Heiner\Domain\Model\Company $newCompany
      * @return void
@@ -96,7 +99,7 @@ class CompanyController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     }
 
     /**
-     * action edit
+     * edit action: getting the domain model instance of a company; populating the company field inputs with the company data to be edited
      * 
      * @param \Heiner\Heiner\Domain\Model\Company $company
      * @ignorevalidation $company
@@ -108,46 +111,49 @@ class CompanyController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     }
 
     /**
-     * action update
+     * update action: called when the company data is edited and submitted. Gets the updated company and saves it to the database.
      * 
      * @param \Heiner\Heiner\Domain\Model\Company $company
      * @return void
      */
     public function updateAction(\Heiner\Heiner\Domain\Model\Company $company)
     {
-        // $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See https://docs.typo3.org/typo3cms/extensions/extension_builder/User/Index.html', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING);
         $this->companyRepository->update($company);
         $this->redirect('list');
     }
 
     /**
-     * action delete
+     * delete action: deleting the corresponding domain model instance $company
      * 
      * @param \Heiner\Heiner\Domain\Model\Company $company
      * @return void
      */
     public function deleteAction(\Heiner\Heiner\Domain\Model\Company $company)
     {
-        $this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See https://docs.typo3.org/typo3cms/extensions/extension_builder/User/Index.html', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING);
         $this->companyRepository->remove($company);
         $this->redirect('list');
     }
+
+    /**
+     * custom function for deleting multiple entries at once
+     * @return void
+     */
     public function deleteMultipleEntriesAction()
     {
-      
         $companiesToDelete = array_values(
             $this->request->getArguments()['companiesToDelete']
         );
-      
-     
-        // $personsToDelete = implode(',', $personsToDelete);
- 
-        $result = $this->companyRepository->deleteMultipleEntries(
+        $this->companyRepository->deleteMultipleEntries(
             $companiesToDelete
         );
-        
-
         $this->redirect('list');
     }
     
+    // public function searchAction(){
+        
+
+      
+
+    //     $this->view->assign('possibleSearchTerms', $possibleSearchTerms);
+    // }
 }

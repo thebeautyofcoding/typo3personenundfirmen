@@ -27,29 +27,18 @@ class CompanyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
 public function deleteMultipleEntries($companiesToDelete)
 {
-  
- 
-
     foreach($companiesToDelete as $company){
         $companyToDelete=$this->findByUid($company);
-        $this->remove( $companyToDelete);
- 
-       
+        $this->remove( $companyToDelete); 
     }
-  
-    return true;
-
 }
 
-public function pagination(int $currentPage)
-
+public function pagination(int $currentPage, int $limit)
     {
-  
-
         $total = $this->createQuery()->count('uid');
         $data['pages'] = [];
         $linksShown = (int)3;
-        $limit = 2;
+     
         $totalPages = (int) ceil($total / $limit);
         $total = (int) $total;
         for (
@@ -61,17 +50,14 @@ public function pagination(int $currentPage)
                 array_push($data['pages'], $x);
             }
         }
- 
         $offset = (int) ($currentPage - 1) * $limit;
         $companies = $this->createQuery()
             ->setOffset($offset)
             ->setLimit($limit)
             ->execute();
- 
+        $data['totalPages']=$totalPages;
         $data['companies'] = $companies;
  
         return $data;
-
+    }
 }
-}
-

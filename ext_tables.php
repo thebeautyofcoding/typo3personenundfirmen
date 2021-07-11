@@ -29,4 +29,10 @@ call_user_func(
 );
 $pluginSignature='heiner_persons';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature]="pi_flexform";
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:heiner/Configuration/FlexForms/Pagination.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:heiner/Configuration/FlexForms/PaginationForPersons.xml');
+
+
+$pluginSignature='heiner_companies';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature]="pi_flexform";
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:heiner/Configuration/FlexForms/PaginationForCompanies.xml');
+

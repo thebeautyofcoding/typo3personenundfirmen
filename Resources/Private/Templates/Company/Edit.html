@@ -13,6 +13,8 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="content">
+  <f:render partial="Search/Search"/>
+  <f:debug>{company}</f:debug>
   <div class="content">
     <h1>Edit Company</h1>
 
@@ -20,10 +22,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
     <f:render partial="FormErrors" />
 
-    <f:form action="update" name="company" object="{company}" >
+    
     <f:render partial="Company/FormFields" arguments="{company:company}" />
     <div class="d-flex justify-content-center mt-5"> <f:form.submit value="Save" class="btn btn-primary" /></div>
-    </f:form>
+   
     </div>
 </f:section>
 </html>

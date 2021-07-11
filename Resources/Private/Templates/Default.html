@@ -2,10 +2,11 @@
 <f:render partial="Header/Default" arguments="{mainNavigation:mainNavigation}"/>
     
 <div class="d-flex flex-column">
+ 
     <div class="container">
         <f:cObject typoscriptObjectPath="lib.dynamicContent" data="{colPos: '0'}" />
     </div>
     <f:security.ifAuthenticated>
-<f:render partial="Footer/Default"  /></f:security.ifAuthenticated>
+<f:render partial="Footer/Default"/></f:security.ifAuthenticated>
 </div>
 </html>

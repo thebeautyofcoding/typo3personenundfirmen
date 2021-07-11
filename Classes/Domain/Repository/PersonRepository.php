@@ -22,8 +22,9 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public $personRepository;
 
     /**
-     * @param \Heiner\Heiner\Domain\Repository\PersonRepository $companyRepository
+     * @param \Heiner\Heiner\Domain\Repository\PersonRepository $personRepository
      */
+
     public function injectPersonRepository(
         \Heiner\Heiner\Domain\Repository\PersonRepository $personRepository
     ) {
@@ -31,79 +32,29 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
+     * custom method: Get all Persons for a specific company
      * @param $firmaid
+     * @return \Heiner\Heiner\Domain\Model\Person $persons
      */
-    public function getPersonsCompany($firmaid)
+    public function findAllPersonsBelongingToCompany(int $firmaId)
     {
-        $queryBuilder = GeneralUtility::makeInstance(
-            ConnectionPool::class
-        )->getQueryBuilderForTable('tx_heiner_domain_model_person');
-        $result = $queryBuilder
-            ->select(
-                'p.anrede',
-                'p.vorname',
-                'p.nachname',
-                'c.name',
-                'c.unterzeile',
-                'c.strasse',
-                'c.plz',
-                'c.ort',
-                'c.telefon',
-                'c.fax',
-                'c.web'
-            )
-            ->from('tx_heiner_domain_model_person', 'p')
-            ->join(
-                'p',
-                'tx_heiner_domain_model_company',
-                'c',
-                $queryBuilder
-                    ->expr()
-                    ->eq('p.firma', $queryBuilder->quoteIdentifier('c.uid'))
-            )
-            ->where(
-                $queryBuilder
-                    ->expr()
-                    ->eq(
-                        'c.uid',
-                        $queryBuilder->createNamedParameter(
-                            $firmaid,
-                            \PDO::PARAM_INT
-                        )
-                    )
-            )
-            ->execute()
-            ->fetchAll();
-
-        return $result;
-    }
-
-    public function findAllPersonsBelongingToCompany($firmaId)
-    {
-        // $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_heiner_domain_model_person');
-        // $persons=$queryBuilder->select('anrede', 'vorname', 'nachname', 'email', 'telefon', 'handy', 'firma')
-        // ->from('tx_heiner_domain_model_person')
-        // ->where($queryBuilder->expr()->eq('tx_heiner_domain_model_person.firma',$queryBuilder->createNamedParameter($firmaId, \PDO::PARAM_INT)))->execute()->fetchAll();
-
-        //  return $persons;
-
         $query = $this->personRepository->createQuery();
         $query->matching($query->equals('firma.uid', $firmaId));
         $persons = $query->execute();
+
         return $persons;
     }
 
-    public function pagination(int $currentPage, $limit)
+    public function pagination(int $currentPage, int $limit)
     {
         $total = $this->createQuery()->count('uid');
         $data['pages'] = [];
         $linksShown = (int) 3;
-
         $totalPages = (int) ceil($total / $limit);
         $total = (int) $total;
         for (
             $x = $currentPage - $linksShown;
-            $x <= $currentPage + $linksShown;
+            $x < $currentPage + $linksShown + 1;
             $x++
         ) {
             if ($x > 0 && $x <= $totalPages) {
@@ -116,24 +67,73 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             ->setOffset($offset)
             ->setLimit($limit)
             ->execute();
-
-        $data['persons'] = $persons;
         $data['totalPages'] = $totalPages;
+        $data['persons'] = $persons;
+
         return $data;
     }
     /**
-     * action delete
-     *
+     *custom method: Delete multiple entries at once
+     * @param array $personsToDelete
      * @var \Heiner\Heiner\Domain\Model\Person $person
      * @return void
      */
-    public function deleteMultipleEntries($personsToDelete)
+
+    public function deleteMultipleEntries(array $personsToDelete)
     {
         foreach ($personsToDelete as $person) {
             $personToDelete = $this->findByUid($person);
             $this->remove($personToDelete);
         }
+    }
+    /**
+     *custom method: search keyword based on person property via ajax
+     * @param string $ajaxQuery search query to search for
+     * @param string $personProperty property of Heiner\Heiner\Domain\Model\Person to search in
+     * @param string $currentPage  used to calculate  number of page-links to show and offset
+     * @param string $limit used to calculate number of total pages and offset
+     * @return array $data
+     */
 
-        return true;
+    public function ajaxSearch(
+        string $ajaxQuery,
+        string $personProperty,
+        string $currentPage,
+        string $limit
+    ) {
+        $limit = (int) $limit;
+        $currentPage = (int) $currentPage;
+        $data['pages'] = [];
+        $query = $this->createQuery();
+        $total = $query
+            ->matching($query->like($personProperty, $ajaxQuery))
+            ->count('uid');
+
+        $linksShown = (int) 3;
+        $totalPages = (int) ceil($total / $limit);
+        $total = (int) $total;
+        for (
+            $x = $currentPage - $linksShown;
+            $x < $currentPage + $linksShown + 1;
+            $x++
+        ) {
+            if ($x > 0 && $x <= $totalPages) {
+                array_push($data['pages'], $x);
+            }
+        }
+        $query = $this->createQuery();
+        $query->matching($query->like($personProperty, '%' . $ajaxQuery . '%'));
+
+        $offset = (int) ($currentPage - 1) * $limit;
+        $offset = (int) $offset;
+        $persons = $query
+            ->setOffset($offset)
+            ->setLimit($limit)
+            ->execute();
+
+        $data['totalPages'] = $totalPages;
+        $data['persons'] = $persons;
+
+        return $data;
     }
 }

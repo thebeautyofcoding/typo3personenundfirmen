@@ -1,6 +1,5 @@
 <?php
 namespace Heiner\Heiner\Controller;
-
 /***
  *
  * This file is part of the "personenundfirmen" Extension for TYPO3 CMS.
@@ -29,11 +28,13 @@ class PersonController extends
      *
      * @var \Heiner\Heiner\Domain\Repository\CompanyRepository
      */
+
     protected $companyRepository = null;
 
     /**
      * @param \Heiner\Heiner\Domain\Repository\PersonRepository $personRepository
      */
+
     public function injectPersonRepository(
         \Heiner\Heiner\Domain\Repository\PersonRepository $personRepository
     ) {
@@ -43,6 +44,7 @@ class PersonController extends
     /**
      * @param \Heiner\Heiner\Domain\Repository\CompanyRepository $companyRepository
      */
+
     public function injectCompanyRepository(
         \Heiner\Heiner\Domain\Repository\CompanyRepository $companyRepository
     ) {
@@ -54,22 +56,27 @@ class PersonController extends
      *
      * @return void
      */
+
     public function listAction()
     {
-        $currentPage = $this->request->getArguments()['pageNumber'];
+        $currentPage = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
+            'pageNumber'
+        );
 
         if (empty($currentPage)) {
             $currentPage = 1;
         }
 
         $currentPage = (int) $currentPage;
-
+        // if (!isset($ajaxPageLimit)) {
+        //     $ajaxPageLimit = $this->settings['limitForPersons'];
+        // }
         // $limit = (int) $this->settings['limit'];
-        $limit = $this->settings['limit'];
+        $limit = $this->settings['limitForPersons'];
         $limit = (int) $limit;
 
         $data = $this->personRepository->pagination($currentPage, $limit);
-        $data['pageLimit'] = [2, 4, 5, 6, 8, 10];
+        $data['pageLimit'] = [1, 2, 4, 5, 6, 8, 10];
         $data['currentPage'] = $currentPage;
         $data['nextPage'] = $currentPage + 1;
         $data['previousPage'] = $currentPage - 1;
@@ -77,13 +84,15 @@ class PersonController extends
         $loggedInUser = $GLOBALS['TSFE']->fe_user->user;
 
         $data['loggedInUser'] = $loggedInUser;
-        $data['defaultLimit'] = $this->settings['limit'];
+        $data['defaultLimit'] = $this->settings['limitForPersons'];
+        if ($ajaxPageLimit) {
+            $data['currentLimit'] = $ajaxPageLimit;
+        }
         $this->view->assign('data', $data);
     }
 
     public function ajaxListAction()
     {
-        
         $ajaxPageLimit = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
             'ajaxPageLimit'
         );
@@ -91,24 +100,57 @@ class PersonController extends
             'pageNumber'
         );
 
-    
-
         if (empty($currentPage)) {
-            $currentPage =1;
+            $currentPage = 1;
         }
 
         $currentPage = (int) $currentPage;
-        $ajaxPageLimit = (int) $ajaxPageLimit;
 
+        if (!isset($ajaxPageLimit)) {
+            $ajaxPageLimit = $this->settings['limitForPersons'];
+        }
+        $ajaxPageLimit = (int) $ajaxPageLimit;
         $data = $this->personRepository->pagination(
             $currentPage,
             $ajaxPageLimit
         );
-   
-        $data['pageLimit']= $ajaxPageLimit;
-      
 
-        $data['pageLimit'] = [2, 4, 6, 8, 10];
+        $data['pageLimit'] = $ajaxPageLimit;
+
+        $data['pageLimit'] = [1, 2, 4, 6, 8, 10];
+        $data['currentPage'] = $currentPage;
+        $data['nextPage'] = $currentPage + 1;
+        $data['previousPage'] = $currentPage - 1;
+
+        $loggedInUser = $GLOBALS['TSFE']->fe_user->user;
+        $data['currentLimit'] = $ajaxPageLimit;
+        $data['loggedInUser'] = $loggedInUser;
+        $data['defaultLimit'] = $this->settings['limitForPersons'];
+
+        $this->view->assign('data', $data);
+    }
+
+    public function ajaxSearchAction()
+    {
+        $query = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('query');
+
+        $personProperty = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
+            'personProperty'
+        );
+
+        $limit = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('limit');
+
+        $currentPage = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
+            'currentPage'
+        );
+        $data = [];
+
+        $data = $this->personRepository->ajaxSearch(
+            $query,
+            $personProperty,
+            $currentPage,
+            $limit
+        );
         $data['currentPage'] = $currentPage;
         $data['nextPage'] = $currentPage + 1;
         $data['previousPage'] = $currentPage - 1;
@@ -117,14 +159,22 @@ class PersonController extends
 
         $data['loggedInUser'] = $loggedInUser;
         $data['defaultLimit'] = $ajaxPageLimit;
+        $loggedInUser = $GLOBALS['TSFE']->fe_user->user;
+
+        $data['loggedInUser'] = $loggedInUser;
+        $data['defaultLimit'] = $this->settings['limitForPersons'];
+        $data['currentLimit'] = $ajaxPageLimit;
+
         $this->view->assign('data', $data);
     }
+
     /**
-     * action show
+     * show all Persons for a corresponding company
      *
      * @param \Heiner\Heiner\Domain\Model\Person $person
      * @return void
      */
+
     public function showAction(\Heiner\Heiner\Domain\Model\Person $person)
     {
         $persons = $this->personRepository->findAllPersonsBelongingToCompany(
@@ -136,17 +186,13 @@ class PersonController extends
 
     /**
      * action new
-     *
+     * get all companies to populate select menu with domain models of Company
      * @return void
      */
+
     public function newAction()
     {
         $companies = $this->companyRepository->findAll();
-
-        // $companyNames=[];
-        // foreach($companies AS $company){
-        //     $companyNames[]=$company->getName();
-        // }
         $this->view->assign('companies', $companies);
     }
 
@@ -157,22 +203,9 @@ class PersonController extends
      * @param \Heiner\Heiner\Domain\Model\Person $newPerson
      * @return void
      */
+
     public function createAction(\Heiner\Heiner\Domain\Model\Person $newPerson)
     {
-        // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($newPerson);
-
-        // $firmaId = $newPerson->getFirmenname();
-        // var_dump($newPerson->getFirma());
-        // exit();
-        // $firmaId = (int) $firmaId;
-        // $newPerson->firma()->setUid($firmaId);
-        // $company = $this->companyRepository->findByUid($newPerson->getFirma());
-        // $newPerson->setFirma($company->getName());
-        $this->addFlashMessage(
-            'The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See https://docs.typo3.org/typo3cms/extensions/extension_builder/User/Index.html',
-            '',
-            \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING
-        );
         $this->personRepository->add($newPerson);
         $this->redirect('list');
     }
@@ -184,26 +217,21 @@ class PersonController extends
      * @ignorevalidation $person
      * @return void
      */
+
     public function editAction(\Heiner\Heiner\Domain\Model\Person $person)
     {
-        // $person = $this->personRepository->findByUid($person->getUid());
-        $allCompanies = $this->companyRepository->findall();
-        // $allCompanies=[];
-        // foreach($allPersons as $person){
-        //     array_push($allCompanies, $person->getFirma());
-        // }
-
+        $allCompanies = $this->companyRepository->findAll();
         $data['allCompanies'] = $allCompanies;
         $data['person'] = $person;
         $this->view->assign('data', $data);
     }
 
     /**
-     * action update
-     *
+     * update action: called when the company data is edited and submitted. Gets the updated company and saves it to the database
      * @param \Heiner\Heiner\Domain\Model\Person $person
      * @return void
      */
+
     public function updateAction(\Heiner\Heiner\Domain\Model\Person $person)
     {
         $this->personRepository->update($person);
@@ -221,19 +249,15 @@ class PersonController extends
         $this->personRepository->remove($person);
         $this->redirect('list');
     }
-
+    /**
+     * custom method for deleting multiple entries at once; getting a comma-seperated list of uids to delete
+     * @var array $personsToDelete Array of person uids to delete
+     * @return void
+     */
     public function deleteMultipleEntriesAction()
     {
-        $personsToDelete = array_values(
-            $this->request->getArguments()['personsToDelete']
-        );
-
-        // $personsToDelete = implode(',', $personsToDelete);
-
-        $result = $this->personRepository->deleteMultipleEntries(
-            $personsToDelete
-        );
-
+        $personsToDelete = $this->request->getArguments()['personsToDelete'];
+        $this->personRepository->deleteMultipleEntries($personsToDelete);
         $this->redirect('list');
     }
 }

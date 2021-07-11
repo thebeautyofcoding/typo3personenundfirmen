@@ -7,29 +7,28 @@ page{
 
     typeNum=0
 
-     includeCSSLibs{
-       bootstrap= EXT:heiner/Resources/Public/Bootstrap/css/bootstrap.min.css
-	   fontawesome = EXT:heiner/Resources/Public/fontawesome/css/all.css
-     css.media = all
+	includeCSSLibs{
+		10= EXT:heiner/Resources/Public/Bootstrap/css/bootstrap.min.css
+		20 = EXT:heiner/Resources/Public/fontawesome/css/all.css
+		css.media = all
    }
 
    includeCSS{
-       heiner=EXT:heiner/Resources/Public/Css/default.css
-   }
-
-   includeJSLibs{
-	  jquery=EXT:heiner/Resources/Public/jquery/js/ajaxPagination.js
-        jquery=EXT:heiner/Resources/Public/jquery/js/jquery-3.3.1.slim.min.js
-       popper=EXT:heiner/Resources/Public/Popper/js/popper.min.js
-       bootstrap=EXT:heiner/Resources/Public/Bootstrap/js/bootstrap.min.js
+       10=EXT:heiner/Resources/Public/Css/default.css
    }
 
    includeJSFooterlibs{
-  jquery=EXT:heiner/Resources/Public/jquery/js/ajaxPagination.js
+       10=EXT:heiner/Resources/Public/jQuery/js/jquery-3.3.1.slim.min.js
+       20=EXT:heiner/Resources/Public/Popper/js/popper.min.js
+       30=EXT:heiner/Resources/Public/Bootstrap/js/bootstrap.min.js
+   }
+
+   includeJSFooter{
+		10=EXT:heiner/Resources/Public/jQuery/js/customJS.js
    }
 
    config {
-		baseURL = 
+		baseURL = /typo3/
 		doctype = html5
 		
 		#####################################

@@ -13,13 +13,14 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="content">
+    <f:render partial="Search/Search"/>
     <div class="d-flex flex-column justify-content-center align-items-center table">
     <h1>Firmen</h1>
 
     <f:flashMessages />
     <f:form action="deleteMultipleEntries" method="POST" object="{company}">
-    <table  class="tx_heiner table table-striped container " >
-        <tr>
+    <table  class="tx_heiner table table-striped container " id="myTable">
+        <tr id="headerRow">
             <th  scope="col"><f:translate key="tx_heiner_domain_model_company.name" /></th>
             <th  scope="col"><f:translate key="tx_heiner_domain_model_company.unterzeile" /></th>
             <th  scope="col"><f:translate key="tx_heiner_domain_model_company.strasse" /></th>
@@ -41,7 +42,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         </tr>
        
         <f:for each="{data.companies}" as="company">
-            <tr>
+            <tr id="tr">
                 <td>{company.name}</td>
             
                 <td>{company.unterzeile}</td>
@@ -72,52 +73,91 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <button class="btn btn-danger ml-2" type="submit">Löschen</button>
     </div>
     </f:form>
-        <div class="d-flex justify-content-center">
-            <nav aria-label="Page navigation example ">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <f:link.action
-                            arguments="{pageNumber: data.previousPage}"
-                            class="page-link"
-                            action="list"
-                            >Previous</f:link.action
-                        >
-                    </li>
-                    <f:for each="{data.pages}" as="page">
-                       
-                        <f:if condition="{page}=={data.currentPage}">
-                            <f:then>
-                                <li class="page-item disabled">
-                                    <f:link.action
-                                        arguments="{pageNumber: page}"
-                                        class="page-link"
-                                        action="list"
-                                        >{page}</f:link.action
-                                    >
-                                </li>
-                            </f:then>
-                            <f:else>
-                                <li class="page-item">
-                                    <f:link.action
-                                        arguments="{pageNumber: page}"
-                                        class="page-link"
-                                        action="list"
-                                        >{page}</f:link.action
-                                    >
-                                </li>
-                            </f:else>
-                        </f:if>
-                    </f:for>
-                    <li class="page-item">
-                        <f:link.action
-                            arguments="{pageNumber: data.nextPage}"
-                            class="page-link"
-                            action="list"
-                            >Next</f:link.action
-                        >
-                    </li>
-                </ul>
-            </nav>
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation example"></nav>
+        <f:if condition="{data.currentPage}==1">
+            <f:then>
+                     <ul class="pagination">
+                <li class="page-item disabled">
+                    <f:link.action
+                        arguments="{pageNumber: page}"
+                        class="page-link"
+                        action="list"
+                        >Previous</f:link.action
+                    >
+                </li>
+            </f:then>
+            <f:else>
+                                 <ul class="pagination">
+                <li class="page-item ">
+                    <f:link.action
+                        arguments="{pageNumber: page}"
+                        class="page-link"
+                        action="list"
+                        >Previous</f:link.action
+                    >
+                </li>
+            </f:else>
+        </f:if>
+        
+       
+                
+               
+                <f:for each="{data.pages}" as="page">
+              
+                    <f:if condition="{page}=={data.currentPage}">
+                        <f:then>
+                            <li class="page-item disabled">
+                                <f:link.action
+                                    arguments="{pageNumber: page}"
+                                    class="page-link"
+                                    action="list"
+                                    >{page}</f:link.action
+                                >
+                            </li>
+                        </f:then>
+                        <f:else>
+                           
+                            <li class="page-item">
+                                <f:link.action
+                                    arguments="{pageNumber: page}"
+                                    class="page-link"
+                                    action="list"
+                                    >{page}</f:link.action
+                                >
+                            </li>
+                        </f:else>
+                    </f:if>
+                </f:for>
+
+
+
+                <f:if condition="{data.currentPage}=={data.totalPages}">
+            <f:then>
+                              <li class="page-item disabled">
+                    <f:link.action
+                        arguments="{pageNumber: data.nextPage}"
+                        class="page-link"
+                        action="list"
+                        >Next</f:link.action
+                    >
+                </li>
+            </f:then>
+            <f:else>
+                                 <ul class="pagination">
+                       <li class="page-item">
+                    <f:link.action
+                        arguments="{pageNumber: data.nextPage}"
+                        class="page-link"
+                        action="list"
+                        >Next</f:link.action
+                    >
+                </li>
+            </f:else>
+        </f:if>
+       
+            </ul>
+        </nav>
         </div>
 </f:section>
 </html>

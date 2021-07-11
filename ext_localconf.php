@@ -1,43 +1,44 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
-call_user_func(
-    function()
-    {
+call_user_func(function () {
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+        'Heiner.Heiner',
+        'Persons',
+        [
+            'Person' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+            'Company' => 'list, show, new, create, edit, update, delete',
+        ],
+        // non-cacheable actions
+        [
+            'Person' =>
+                'list, show, new, create, edit, update, delete,deleteMultipleEntries, ajaxList, ajaxSearch',
+            'Company' => 'list, show, new, create, edit, update, delete',
+        ]
+    );
 
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'Heiner.Heiner',
-            'Persons',
-            [
-                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList',
-                'Company' => 'list, show, new, create, edit, update, delete'
-            ],
-            // non-cacheable actions
-            [
-                'Person' => 'list, show, new, create, edit, update, delete,deleteMultipleEntries, ajaxList',
-                'Company' => 'list, show, new, create, edit, update, delete'
-            ]
-        );
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+        'Heiner.Heiner',
+        'Companies',
+        [
+            'Company' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch',
+            'Person' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+        ],
+        // non-cacheable actions
+        [
+            'Company' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch',
+            'Person' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+        ]
+    );
 
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'Heiner.Heiner',
-            'Companies',
-            [
-                'Company' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries',
-                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList',
-                
-            ],
-            // non-cacheable actions
-            [
-                'Company' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries',
-                'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList'
-                
-            ]
-        );
-
-        // wizards
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-            'mod {
+    // wizards
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+        'mod {
                 wizards.newContentElement.wizardItems.plugins {
                     elements {
                         persons {
@@ -62,20 +63,26 @@ call_user_func(
                     show = *
                 }
            }'
-        );
-		$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-		
-			$iconRegistry->registerIcon(
-				'heiner-plugin-persons',
-				\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-				['source' => 'EXT:heiner/Resources/Public/Icons/user_plugin_persons.svg']
-			);
-		
-			$iconRegistry->registerIcon(
-				'heiner-plugin-companies',
-				\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-				['source' => 'EXT:heiner/Resources/Public/Icons/user_plugin_companies.svg']
-			);
-		
-    }
-);
+    );
+    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Imaging\IconRegistry::class
+    );
+
+    $iconRegistry->registerIcon(
+        'heiner-plugin-persons',
+        \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+        [
+            'source' =>
+                'EXT:heiner/Resources/Public/Icons/user_plugin_persons.svg',
+        ]
+    );
+
+    $iconRegistry->registerIcon(
+        'heiner-plugin-companies',
+        \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+        [
+            'source' =>
+                'EXT:heiner/Resources/Public/Icons/user_plugin_companies.svg',
+        ]
+    );
+});

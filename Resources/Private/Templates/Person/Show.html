@@ -13,44 +13,49 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="content">
-    <h1>Single View for Person</h1>
+  <div class="d-flex flex-column justify-content-center align-items-center table">
+    <h1>Folgende Personen sind bei der Firma "{persons.0.firma.name}" angestellt:</h1>
 
     <f:flashMessages />
-    <table  class="tx_heiner" >
+    <table  class="table table-striped container" >
       <tr>
           <th><f:translate key="tx_heiner_domain_model_person.anrede" /></th>
           <th><f:translate key="tx_heiner_domain_model_person.vorname" /></th>
           <th><f:translate key="tx_heiner_domain_model_person.nachname" /></th>
-          <th><f:translate key="tx_heiner_domain_model_person.firma.name" /></th>
-          <th><f:translate key="tx_heiner_domain_model_person.firma.unterzeile" /></th>
-          <th><f:translate key="tx_heiner_domain_model_person.firma.strasse" /></th>
-          <th><f:translate key="tx_heiner_domain_model_person.firma.plz" /></th>
-          <th><f:translate key="tx_heiner_domain_model_person.firma.ort" /></th>
-          <th><f:translate key="tx_heiner_domain_model_person.firma.telefon" /></th>
-          <th><f:translate key="tx_heiner_domain_model_person.firma.fax" /></th>
+          <th><f:translate key="tx_heiner_domain_model_company.name" /></th>
+        
+          <th><f:translate key="tx_heiner_domain_model_company.strasse" /></th>
+          <th><f:translate key="tx_heiner_domain_model_company.plz" /></th>
+          <th><f:translate key="tx_heiner_domain_model_company.ort" /></th>
+          <th><f:translate key="tx_heiner_domain_model_company.telefon" /></th>
+          <th><f:translate key="tx_heiner_domain_model_company.fax" /></th>
 
-          <th><f:translate key="tx_heiner_domain_model_person.firma.web" /></th>
+          <th><f:translate key="tx_heiner_domain_model_company.web" /></th>
           
 
-          <th> </th>
-          <th> </th>
+          <!-- <th> </th>
+          <th> </th> -->
       </tr>
-
+<f:debug>{persons}</f:debug>
       <f:for each="{persons}" as="person">
 
           <tr>
               <td>{person.anrede}</td>
               <td>{person.vorname}</td>
               <td>{person.nachname}</td>
-              <td>{person.email}</td>
-              <td>{person.telefon}</td>
-              <td><f:link.action action="show" arguments="{person : person}">{person.firma.name}</f:link.action></td>
-              <td><f:link.action action="edit" arguments="{person : person}">Edit</f:link.action></td>
-              <td><f:link.action action="delete" arguments="{person : person}">Delete</f:link.action></td>
+              <td>{person.firma.name}</td>
+              <td>{person.firma.strasse}</td>
+              <td>{person.firma.plz}</td>
+              <td>{person.firma.ort}</td>
+              <td>{person.firma.telefon}</td>
+              <td>{person.firma.fax}</td>
+              <td>{person.firma.web}</td>
+             
+         
           </tr>
       </f:for>
   </table>
-    <f:link.action action="list">Back to list</f:link.action><br />
-    <f:link.action action="new">New Person</f:link.action>
+    <div class="d-flex justify-content-center"><f:link.action action="list">Back to list</f:link.action></div><br />
+</div>
 </f:section>
 </html>

@@ -31,7 +31,7 @@
 				<source>Company</source>
 			</trans-unit>
 			<trans-unit id="tx_heiner_domain_model_company.name" resname="tx_heiner_domain_model_company.name">
-				<source>Name</source>
+				<source>Firmenname</source>
 			</trans-unit>
 			<trans-unit id="tx_heiner_domain_model_company.unterzeile" resname="tx_heiner_domain_model_company.unterzeile">
 				<source>Unterzeile</source>

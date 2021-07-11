@@ -1,6 +1,7 @@
+  
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:layout name="Default" />
-<f:debug>{_all}</f:debug>
+
 This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -14,7 +15,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <div class="d-flex flex-column  justify-content-center">
 <f:section name="content" >
     
-    <f:render partial="Person/PageLimit" arguments="{limits:data.pageLimit}"/>
+    <f:render partial="Person/PageLimit" arguments="{limits:data.pageLimit, defaultLimit:data.defaultLimit}"/>
     <div class="d-flex flex-column justify-content-center align-items-center table">
     <h1>Personen</h1>
 
@@ -22,7 +23,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
     <f:form id="table" action="deleteMultipleEntries" method="POST" object="{person}" class="mb-2">
-    <table  class="tx_heiner table table-striped container" >
+    <table  id="myTable" class="tx_heiner table table-striped container" >
         <tr>
             <th scope="col"><f:translate key="tx_heiner_domain_model_person.anrede" /></th>
             <th scope="col"><f:translate key="tx_heiner_domain_model_person.vorname" /></th>
@@ -70,7 +71,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         </f:for>
  
     </table>
-    <div class="d-flex justify-content-center align-items-center mb-2">
+    <div class="d-flex justify-content-center align-items-center mb-2" id="NewAndDeleteButtonContainer">
     <f:link.action action="new" class="">New Person</f:link.action>
     <button class="btn btn-danger ml-2" type="submit">Löschen</button>
 </div>
@@ -83,7 +84,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <li class="page-item disabled">
                     <f:form.button
                     id="previousButton"
-                    
+                    value="{data.previousPage}"
                         class="page-link"
                         >Previous</f:form.button
                     >
@@ -110,21 +111,20 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:if condition="{page}=={data.currentPage}">
                         <f:then>
                             <li class="page-item disabled">
-                                <button
-                                type="button"
+                                <f:form.button
                                     class="page-link"
-                                id="pageButton"
-                                   value="{page}">{page}</button>
+                                id="pageButton{page}"
+                                   value="{page}">{page}</f:form.button>
                                 
                             </li>
                         </f:then>
                         <f:else>
                            
                             <li class="page-item">
-                                <button
-                                    id="pageButton"
-                                    type="button"
-                                    class="page-link" value="{page}">{page}</button>
+                                <f:form.button
+                                    id="pageButton{page}"
+                                    
+                                    class="page-link" value="{page}">{page}</f:form.button>
                                     
                         </f:else>
                     </f:if>
@@ -138,6 +138,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:form.button
                     value="{data.currentPage}"
                             id="nextButton"
+                            value="{data.nextPage}"
                                     class="page-link"
                         >Next</f:form.button
                     >
@@ -147,7 +148,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                  
                        <li class="page-item">
                  <f:form.button
-                    value="{data.currentPage+1}"
+                    value="{data.nextPage}"
                             id="nextButton"
                                     class="page-link"
                         >Next</f:form.button
@@ -165,4 +166,3 @@ Otherwise your changes will be overwritten the next time you save the extension 
     </f:section>
 
 </html>
-
