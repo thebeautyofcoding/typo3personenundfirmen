@@ -23,14 +23,14 @@ call_user_func(function () {
         'Companies',
         [
             'Company' =>
-                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch',
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
             'Person' =>
                 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
         ],
         // non-cacheable actions
         [
             'Company' =>
-                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch',
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
             'Person' =>
                 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
         ]

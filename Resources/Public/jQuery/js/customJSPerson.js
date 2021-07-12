@@ -68,6 +68,8 @@ $(document).ready(function () {
         }
 
     })
+
+
     $("#searchInput").on("keyup", function () {
 
         var query = $(this).val().toLowerCase().trim();
@@ -113,10 +115,10 @@ $(document).ready(function () {
     })
 
 
-    $(this).on('click', ':button.page-link, :button#nextButton, :button#previousButton', function () {
+    $(this).on('click', ':button.personPageButton, :button#nextButton, :button#previousButton', function () {
 
         var currentPageNumber = $(this).val();
-        console.log($(this).val())
+
         var controllerpath = $("#uri_hidden").val();
         var ajaxPageLimit = $('#ajaxPageLimit').val()
         if ($('#personProperty').val() === '' && $('#searchInput').val() === '') {
@@ -253,4 +255,13 @@ $(document).ready(function () {
         }
 
     })
+
+
+
+
+
+
+
+
+
 });

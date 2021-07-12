@@ -96,7 +96,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                    <f:form.button
                     id="previousButton"
                     value="{data.previousPage}"
-                        class="page-link"
+                        class="page-link "
                         >Previous</f:form.button
                     >
                 </li>
@@ -112,7 +112,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <f:then>
                             <li class="page-item disabled">
                                 <f:form.button
-                                    class="page-link"
+                                    class="page-link personPageButton"
                                 id="pageButton{page}"
                                    value="{page}">{page}</f:form.button>
                                 
@@ -124,7 +124,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                 <f:form.button
                                     id="pageButton{page}"
                                     
-                                    class="page-link" value="{page}">{page}</f:form.button>
+                                    class="page-link personPageButton" value="{page}">{page}</f:form.button>
                                     
                         </f:else>
                     </f:if>

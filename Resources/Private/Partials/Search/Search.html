@@ -4,7 +4,7 @@
 <f:form action="search" controller="CompanyController"name="search"  enctype="multipart/form-data">
     <div class="d-flex">
     <h4 class="text-nowrap d-flex align-items-center mt-3 mr-3">Bitte Suchbegriff eingeben: </h3>
-    <f:form.select  id="personProperty"class="form-control mt-3 mr-3">
+    <f:form.select id="personProperty"class="form-control mt-3 mr-3 selectMenu">
         <f:form.select.option value="">Bitte auswählen</f:form.select.option>
         <f:form.select.option value="email">Email</f:form.select.option>
         <f:form.select.option value="vorname">Vorname</f:form.select.option>
@@ -13,7 +13,7 @@
     <f:form.textfield name="searchKeyword" id="searchInput" placeholder="Suchbegriff.." class="form-control searchInput d-flex justify-content-center mt-3" />
     
 
-    <f:form.hidden name="uri_hidden" id="uri_hiddenSearch" value="<f:uri.action  action='ajaxSearch' />" /> 
+    <f:form.hidden name="uri_hidden" id="uri_hiddenSearch" value="<f:uri.action controller='Person'  action='ajaxSearch' />" /> 
 </div>
 </f:form>
 

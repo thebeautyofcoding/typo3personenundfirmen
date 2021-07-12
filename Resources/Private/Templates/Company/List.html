@@ -1,6 +1,6 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:layout name="Default" />
-
+ 
 This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -11,16 +11,23 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         List.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
-<f:section name="content">
-    <f:render partial="Search/Search"/>
+<div class="d-flex flex-column  justify-content-center">
+<f:section name="content" >
+    
+    
     <div class="d-flex flex-column justify-content-center align-items-center table">
-    <h1>Firmen</h1>
-
+    <h1 class="mb-3">Firmen</h1>
+    <div class="d-flex justify-content-start">
+        <h4 class="d-flex mr-3 ">Bitte Anzahl der Einträge pro Seite auswählen:</h4>
+    <div class="mr-3"><f:render partial="Company/PageLimit" arguments="{limits:data.pageLimit, defaultLimit:data.defaultLimit, currentLimit:data.currentLimit}"/></div></div>
+    <f:render partial="Search/SearchCompany"/>
     <f:flashMessages />
-    <f:form action="deleteMultipleEntries" method="POST" object="{company}">
-    <table  class="tx_heiner table table-striped container " id="myTable">
-        <tr id="headerRow">
+
+
+    <f:form    id="table"action="deleteMultipleEntries" method="POST" object="{person}" class="mb-2">
+    <table id="myTable" class="tx_heiner table table-striped container" >
+       
+            <tr id="trHeader">
             <th  scope="col"><f:translate key="tx_heiner_domain_model_company.name" /></th>
             <th  scope="col"><f:translate key="tx_heiner_domain_model_company.unterzeile" /></th>
             <th  scope="col"><f:translate key="tx_heiner_domain_model_company.strasse" /></th>
@@ -31,8 +38,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <th  scope="col"><f:translate key="tx_heiner_domain_model_company.web" /></th>
             <f:if condition="{data.loggedInUser.ses_id}">
                     <f:then>
-                        <th  scope="col">Editieren </th>
-                        <th  scope="col">Zum Löschen markieren </th>
+                        <th scope="col">Editieren </th>
+                <th scope="col">Zum Löschen markieren </th>
                     </f:then>
                     <f:else>
 
@@ -40,11 +47,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 </f:if>
             
         </tr>
-       
+        
         <f:for each="{data.companies}" as="company">
+
+        
             <tr id="tr">
                 <td>{company.name}</td>
-            
                 <td>{company.unterzeile}</td>
                 <td>{company.strasse}</td>
                 <td>{company.plz}</td>
@@ -52,14 +60,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <td>{company.telefon}</td>
                 <td>{company.fax}</td>
                 <td>{company.web}</td>
-        
-            
-      
-      
+               
                 <f:if condition="{data.loggedInUser.ses_id}">
                     <f:then>
                         <td><f:link.action action="edit" arguments="{company : company}"><i class="fas fa-edit"></i></f:link.action></td>
-                        <td><f:form.checkbox name="companiesToDelete"property="uid" value="{company.uid}" multiple="1" /></td>
+                        <td><f:form.checkbox name="companiesToDelete" property="uid" value="{company.uid}" multiple="1" /></td>
                     </f:then>
                     <f:else>
 
@@ -67,34 +72,37 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 </f:if>
             </tr>
         </f:for>
+ 
     </table>
-    <div class="d-flex justify-content-center align-items-center mb-2">
-        <f:link.action action="new" class="">New Company</f:link.action>
-        <button class="btn btn-danger ml-2" type="submit">Löschen</button>
-    </div>
-    </f:form>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center align-items-center mb-2" id="NewAndDeleteButtonContainer">
+    <f:link.action action="new" class="">New Person</f:link.action>
+    <button class="btn btn-danger ml-2" type="submit">Löschen</button>
+</div>
+</f:form>
+
+     <div class="d-flex justify-content-center" id="paginationContainer">
+       
         <nav aria-label="Page navigation example"></nav>
         <f:if condition="{data.currentPage}==1">
             <f:then>
-                     <ul class="pagination">
+                     <ul class="pagination ">
                 <li class="page-item disabled">
-                    <f:link.action
-                        arguments="{pageNumber: page}"
-                        class="page-link"
-                        action="list"
-                        >Previous</f:link.action
+                    <f:form.button
+                    id="previousButtonCompany"
+                        class="page-link "
+                       value="{data.previousPage}"
+                        >Previous</f:form.button
                     >
                 </li>
             </f:then>
             <f:else>
                                  <ul class="pagination">
                 <li class="page-item ">
-                    <f:link.action
-                        arguments="{pageNumber: page}"
+                    <f:form.button
+                    id="previousButtonCompany"
+                    value="{data.previousPage}"
                         class="page-link"
-                        action="list"
-                        >Previous</f:link.action
+                        >Previous</f:form.button
                     >
                 </li>
             </f:else>
@@ -108,23 +116,22 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:if condition="{page}=={data.currentPage}">
                         <f:then>
                             <li class="page-item disabled">
-                                <f:link.action
-                                    arguments="{pageNumber: page}"
-                                    class="page-link"
-                                    action="list"
-                                    >{page}</f:link.action
+                                <f:form.button
+                                id="pageButton{page}"
+                                    class="page-link companyPageButton"
+                                value="{page}"
+                                    >{page}</f:form.button
                                 >
                             </li>
                         </f:then>
                         <f:else>
-                           
+                            
                             <li class="page-item">
-                                <f:link.action
-                                    arguments="{pageNumber: page}"
-                                    class="page-link"
-                                    action="list"
-                                    >{page}</f:link.action
-                                >
+                                <f:form.button
+                              value="{page}"
+                                id="pageButton{page}"
+                                    class="page-link companyPageButton"
+                                    >{page}</f:form.button>
                             </li>
                         </f:else>
                     </f:if>
@@ -135,22 +142,21 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <f:if condition="{data.currentPage}=={data.totalPages}">
             <f:then>
                               <li class="page-item disabled">
-                    <f:link.action
-                        arguments="{pageNumber: data.nextPage}"
-                        class="page-link"
-                        action="list"
-                        >Next</f:link.action
+                    <f:form.button
+                    value="{data.nextPage}"
+                            id="nextButtonCompany"        class="page-link"
+                        >Next</f:form.button
                     >
                 </li>
             </f:then>
             <f:else>
-                                 <ul class="pagination">
+                                 
                        <li class="page-item">
-                    <f:link.action
-                        arguments="{pageNumber: data.nextPage}"
-                        class="page-link"
-                        action="list"
-                        >Next</f:link.action
+                    <f:form.button
+                    value="{data.nextPage}"
+                            id="nextButtonCompany"
+                                    class="page-link"
+                        >Next</f:form.button
                     >
                 </li>
             </f:else>
@@ -158,6 +164,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
        
             </ul>
         </nav>
-        </div>
-</f:section>
+        
+    
+ 
+ </div>
+
+    </f:section>
+
 </html>

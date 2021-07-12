@@ -93,22 +93,21 @@ class PersonController extends
 
     public function ajaxListAction()
     {
-        $ajaxPageLimit = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
-            'ajaxPageLimit'
-        );
-        $currentPage = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
-            'pageNumber'
-        );
-
-        if (empty($currentPage)) {
-            $currentPage = 1;
+        if (
+            !empty(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('ajaxPageLimit'))
+        ) {
+            $ajaxPageLimit = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
+                'ajaxPageLimit'
+            );
+        }
+        if (!empty(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('pageNumber'))) {
+            $currentPage = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
+                'pageNumber'
+            );
         }
 
         $currentPage = (int) $currentPage;
 
-        if (!isset($ajaxPageLimit)) {
-            $ajaxPageLimit = $this->settings['limitForPersons'];
-        }
         $ajaxPageLimit = (int) $ajaxPageLimit;
         $data = $this->personRepository->pagination(
             $currentPage,

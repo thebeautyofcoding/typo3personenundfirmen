@@ -24,7 +24,8 @@ page{
    }
 
    includeJSFooter{
-		10=EXT:heiner/Resources/Public/jQuery/js/customJS.js
+		10=EXT:heiner/Resources/Public/jQuery/js/customJSPerson.js
+		20=EXT:heiner/Resources/Public/jQuery/js/customJSCompany.js
    }
 
    config {
