@@ -106,7 +106,7 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $data['pages'] = [];
         $query = $this->createQuery();
         $total = $query
-            ->matching($query->like($personProperty, $ajaxQuery))
+            ->matching($query->like($personProperty, '%' . $ajaxQuery.'%' ))
             ->count('uid');
 
         $linksShown = (int) 3;
