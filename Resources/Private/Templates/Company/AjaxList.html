@@ -48,7 +48,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <f:for each="{data.companies}" as="company">
 
         
-            <tr id="tr">
+            <tr class="tr">
                 <td>{company.name}</td>
             
                 <td>{company.unterzeile}</td>
@@ -59,7 +59,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <td>{company.fax}</td>
                 <td>{company.web}</td>
             
-                <td><f:link.action action="show" arguments="{company : company}">{person.firma.name}</f:link.action></td>
+            
                 <f:if condition="{data.loggedInUser.ses_id}">
                     <f:then>
                         <td><f:link.action action="edit" arguments="{company : company}"><i class="fas fa-edit"></i></f:link.action></td>
@@ -78,7 +78,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <button class="btn btn-danger ml-2" type="submit">Löschen</button>
 </div>
 </f:form>
-    <div class="d-flex justify-content-center" id="paginationContainer">
+    <div class="d-flex justify-content-center mb-5" id="paginationContainer">
         <nav aria-label="Page navigation example"></nav>
         <f:if condition="{data.currentPage}==1">
             <f:then>

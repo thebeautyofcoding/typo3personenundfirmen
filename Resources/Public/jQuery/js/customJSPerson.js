@@ -3,7 +3,7 @@
 //     $("#searchInput").on("keyup", function() {
 //       var value = $(this).val().toLowerCase();
 
-//         $("#myTable #tr").filter(function() {
+//         $("#myTable .tr").filter(function() {
 
 
 
@@ -11,7 +11,7 @@
 
 
 //         });
-//         if($("#tr").text().toLowerCase().indexOf(value)===-1){
+//         if($(".tr").text().toLowerCase().indexOf(value)===-1){
 //             $('.btn-danger').hide()
 //             $('.pagination').hide()
 
@@ -51,8 +51,8 @@ $(document).ready(function () {
                 method: 'POST',
 
                 success: function (response) {
-                    $('#myTable #tr').remove()
-                    var tableRows = $(response).find('#tr')
+                    $('.tr').remove()
+                    var tableRows = $(response).find('.tr')
 
                     $('#trHeader').after(tableRows)
                     $('#paginationContainer').remove()
@@ -87,8 +87,8 @@ $(document).ready(function () {
             method: 'POST',
 
             success: function (response) {
-                $('#myTable #tr').remove()
-                var tableRows = $(response).find('#tr')
+                $(' .tr').remove()
+                var tableRows = $(response).find('.tr')
 
                 $('#trHeader').after(tableRows)
                 $('#paginationContainer').remove()
@@ -105,14 +105,25 @@ $(document).ready(function () {
 
 
     // Disable CreateNew-Button, if no Company was chosen
-    $('#submit').prop('disabled', true)
+    $('#submitPerson').prop('disabled', true)
     $('#select').on('change', function () {
-        if ($('#select').val() !== '') {
-            $('#submit').prop('disabled', false)
+
+        if ($('#select').val() !== '' && $('input:text').val() !== '') {
+            $('#submitPerson').prop('disabled', false)
         } else {
-            $('#submit').prop('disabled', true)
+            $('#submitPerson').prop('disabled', true)
         }
     })
+
+    $('#newPerson  :input:text').on('change', function () {
+
+        if ($('#newPerson  :input:text').val() !== '' && $('#select').val() !== '') {
+            $('#submitPerson').prop('disabled', false)
+        } else {
+            $('#submitPerson').prop('disabled', true)
+        }
+    })
+
 
 
     $(this).on('click', ':button.personPageButton, :button#nextButton, :button#previousButton', function () {
@@ -129,13 +140,13 @@ $(document).ready(function () {
                 url: controllerpath,
                 data: { 'pageNumber': currentPageNumber, 'ajaxPageLimit': ajaxPageLimit },
                 success: function (response) {
-                    $('[id=tr]').each(function () {
+                    $('.tr').each(function () {
                         $(this).remove()
                     })
 
                     $('#currentLimit').val(ajaxPageLimit)
                     $('#currentLimit').text(ajaxPageLimit)
-                    var tableRows = $(response).find('#tr')
+                    var tableRows = $(response).find('.tr')
                     $('#trHeader').after(tableRows)
 
                     $('#paginationContainer').remove()
@@ -157,13 +168,13 @@ $(document).ready(function () {
                 url: controllerpath,
                 data: { 'currentPage': currentPageNumber, 'limit': limit, 'query': query, 'personProperty': personProperty },
                 success: function (response) {
-                    $('[id=tr]').each(function () {
+                    $('.tr').each(function () {
                         $(this).remove()
                     })
 
                     $('#currentLimit').val(limit)
                     $('#currentLimit').text(limit)
-                    var tableRows = $(response).find('#tr')
+                    var tableRows = $(response).find('.tr')
                     $('#trHeader').after(tableRows)
 
                     $('#paginationContainer').remove()
@@ -195,7 +206,7 @@ $(document).ready(function () {
                 url: controllerpath,
                 data: { 'ajaxPageLimit': val, 'pageNumber': 1 },
                 success: function (response) {
-                    $('[id=tr]').each(function () {
+                    $('.tr').each(function () {
                         $(this).remove()
 
                     }
@@ -211,7 +222,7 @@ $(document).ready(function () {
                     $('#ajaxPageLimit option').show();
                     $('#ajaxPageLimit option:selected').hide();
 
-                    var tableRows = $(response).find('#tr')
+                    var tableRows = $(response).find('.tr')
                     $('#trHeader').after(tableRows)
 
                 }
@@ -236,8 +247,8 @@ $(document).ready(function () {
                 method: 'POST',
 
                 success: function (response) {
-                    $('#myTable #tr').remove()
-                    var tableRows = $(response).find('#tr')
+                    $('.tr').remove()
+                    var tableRows = $(response).find('.tr')
                     $('#ajaxPageLimit option').show();
                     $('#ajaxPageLimit option:selected').hide();
                     $('#trHeader').after(tableRows)

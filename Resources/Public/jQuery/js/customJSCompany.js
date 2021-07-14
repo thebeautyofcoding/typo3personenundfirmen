@@ -20,7 +20,7 @@ $(document).ready(function () {
     //             url: controllerpath,
     //             data: { 'pageNumber': currentPageNumber, 'ajaxPageLimit': ajaxPageLimit },
     //             success: function (response) {
-    //                 $('[id=tr]').each(function () {
+    //                 $('.tr').each(function () {
     //                     $(this).remove()
     //                 })
 
@@ -29,7 +29,7 @@ $(document).ready(function () {
 
     //                 $('#defaultLimit').val(ajaxPageLimit)
     //                 $('#defaultLimit').text(ajaxPageLimit)
-    //                 var tableRows = $(response).find('#tr')
+    //                 var tableRows = $(response).find('.tr')
     //                 $('#trHeader').after(tableRows)
     //                 console.log(tableRows)
     //                 $('#paginationContainer').remove()
@@ -70,8 +70,8 @@ $(document).ready(function () {
                 method: 'POST',
 
                 success: function (response) {
-                    $('#myTable #tr').remove()
-                    var tableRows = $(response).find('#tr')
+                    $('.tr').remove()
+                    var tableRows = $(response).find('.tr')
 
                     $('#trHeader').after(tableRows)
                     $('#paginationContainer').remove()
@@ -104,8 +104,8 @@ $(document).ready(function () {
             method: 'POST',
 
             success: function (response) {
-                $('#myTable #tr').remove()
-                var tableRows = $(response).find('#tr')
+                $('.tr').remove()
+                var tableRows = $(response).find('.tr')
 
                 $('#trHeader').after(tableRows)
                 $('#paginationContainer').remove()
@@ -141,13 +141,13 @@ $(document).ready(function () {
                 url: controllerpath,
                 data: { 'pageNumber': currentPageNumber, 'ajaxPageLimit': ajaxPageLimit },
                 success: function (response) {
-                    $('[id=tr]').each(function () {
+                    $('.tr').each(function () {
                         $(this).remove()
                     })
 
                     $('#currentLimit').val(ajaxPageLimit)
                     $('#currentLimit').text(ajaxPageLimit)
-                    var tableRows = $(response).find('#tr')
+                    var tableRows = $(response).find('.tr')
                     $('#trHeader').after(tableRows)
 
                     $('#paginationContainer').remove()
@@ -170,13 +170,13 @@ $(document).ready(function () {
                 url: controllerpath,
                 data: { 'currentPage': currentPageNumber, 'limit': limit, 'query': query, 'companyProperty': companyProperty },
                 success: function (response) {
-                    $('[id=tr]').each(function () {
+                    $('.tr').each(function () {
                         $(this).remove()
                     })
 
                     $('#currentLimit').val(limit)
                     $('#currentLimit').text(limit)
-                    var tableRows = $(response).find('#tr')
+                    var tableRows = $(response).find('.tr')
                     $('#trHeader').after(tableRows)
 
                     $('#paginationContainer').remove()
@@ -189,7 +189,7 @@ $(document).ready(function () {
         }
     })
 
-    $('#ajaxPageLimitCompany').change(function () {
+    $('#ajaxPageLimitCompany').on('change', function () {
 
         var val = $('#ajaxPageLimitCompany').val();
 
@@ -202,13 +202,13 @@ $(document).ready(function () {
         var controllerpath = $("#uri_hiddenCompany").val();
         if (personProperty == '' && searchInput == '') {
 
-            console.log("2222")
+
             $.ajax({
                 type: "POST",
                 url: controllerpath,
                 data: { 'ajaxPageLimit': val, 'pageNumber': 1 },
                 success: function (response) {
-                    $('[id=tr]').each(function () {
+                    $('.tr').each(function () {
                         $(this).remove()
 
                     }
@@ -224,7 +224,7 @@ $(document).ready(function () {
                     $('#ajaxPageLimitCompany option').show();
                     $('#ajaxPageLimitCompany option:selected').hide();
 
-                    var tableRows = $(response).find('#tr')
+                    var tableRows = $(response).find('.tr')
                     $('#trHeader').after(tableRows)
 
                 }
@@ -249,8 +249,8 @@ $(document).ready(function () {
                 method: 'POST',
 
                 success: function (response) {
-                    $('#myTable #tr').remove()
-                    var tableRows = $(response).find('#tr')
+                    $('.tr').remove()
+                    var tableRows = $(response).find('.tr')
                     $('#ajaxPageLimitCompany option').show();
                     $('#ajaxPageLimitCompany option:selected').hide();
                     $('#trHeader').after(tableRows)
@@ -267,8 +267,31 @@ $(document).ready(function () {
             });
         }
 
-    })
+    });
+
+
+
+    var $input = $('#newCompany  :input:text')
+    $submit = $('#submitCompany');
+    $submit.attr('disabled', true);
+
+    $input.keyup(function () {
+        var trigger = false;
+        $input.each(function () {
+            if (!$(this).val()) {
+                trigger = true;
+            }
+        });
+        trigger ? $submit.attr('disabled', true) : $submit.removeAttr('disabled');
+    });
+
 })
+
+
+
+
+
+
 
 
 

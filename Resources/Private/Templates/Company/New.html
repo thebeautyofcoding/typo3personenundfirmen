@@ -18,10 +18,19 @@
 
       <f:render partial="FormErrors" />
 
-      <f:form action="create" name="newCompany" object="{newCompany}">
+      <f:form
+        action="create"
+        id="newCompany"
+        name="newCompany"
+        object="{newCompany}"
+      >
         <f:render partial="Company/FormFields" />
         <div class="d-flex justify-content-center">
-          <f:form.submit value="Create new" class="btn btn-primary" />
+          <f:form.submit
+            id="submitCompany"
+            value="Create new"
+            class="btn btn-primary"
+          />
         </div>
       </f:form>
     </div>
