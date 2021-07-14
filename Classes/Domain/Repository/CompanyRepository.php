@@ -71,7 +71,7 @@ class CompanyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $data['pages'] = [];
         $query = $this->createQuery();
         $total = $query
-            ->matching($query->like($companyProperty, $ajaxQuery))
+            ->matching($query->like($companyProperty, '%' .$ajaxQuery.'%' ))
             ->count('uid');
 
         $linksShown = (int) 3;

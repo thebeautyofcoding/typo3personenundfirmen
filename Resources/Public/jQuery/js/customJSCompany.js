@@ -122,17 +122,10 @@ $(document).ready(function () {
 
 
     // Disable CreateNew-Button, if no Company was chosen
-    $('#submit').prop('disabled', true)
-    $('#select').on('change', function () {
-        if ($('#select').val() !== '') {
-            $('#submit').prop('disabled', false)
-        } else {
-            $('#submit').prop('disabled', true)
-        }
-    })
 
 
-    $(this).on('click', '.companyPageButton, :button#nextButton, :button#previousButton', function () {
+
+    $(this).on('click', '.companyPageButton, :button#nextButtonCompany, :button#previousButtonCompany', function () {
 
         var currentPageNumber = $(this).val();
         console.log($(this).val())
@@ -246,7 +239,7 @@ $(document).ready(function () {
             var limit = $('#ajaxPageLimitCompany').val();
 
             $.ajax({
-                url: $('#uri_hiddenSearch').val().trim(), // separate file for search
+                url: $('#uri_hiddenSearchCompany').val().trim(), // separate file for search
                 data: {
                     'query': query,
                     'companyProperty': companyProperty,

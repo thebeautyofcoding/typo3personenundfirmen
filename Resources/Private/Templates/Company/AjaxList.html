@@ -22,7 +22,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <f:flashMessages />
 
 
-    <f:form id="table" action="deleteMultipleEntries" method="POST" object="{person}" class="mb-2">
+    <f:form id="table" action="deleteMultipleEntries" method="POST" object="{company}" class="mb-2">
     <table  id="myTable" class="tx_heiner table table-striped container" >
         <tr>
             <th  scope="col"><f:translate key="tx_heiner_domain_model_company.name" /></th>
@@ -59,11 +59,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <td>{company.fax}</td>
                 <td>{company.web}</td>
             
-                <td><f:link.action action="show" arguments="{person : person}">{person.firma.name}</f:link.action></td>
+                <td><f:link.action action="show" arguments="{company : company}">{person.firma.name}</f:link.action></td>
                 <f:if condition="{data.loggedInUser.ses_id}">
                     <f:then>
-                        <td><f:link.action action="edit" arguments="{person : person}"><i class="fas fa-edit"></i></f:link.action></td>
-                        <td><f:form.checkbox name="personsToDelete"property="uid" value="{person.uid}" multiple="1" /></td>
+                        <td><f:link.action action="edit" arguments="{company : company}"><i class="fas fa-edit"></i></f:link.action></td>
+                        <td><f:form.checkbox name="personsToDelete"property="uid" value="{company.uid}" multiple="1" /></td>
                     </f:then>
                     <f:else>
 
@@ -85,7 +85,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                      <ul class="pagination ">
                 <li class="page-item disabled">
                     <f:form.button
-                    id="previousButton"
+                    id="previousButtonCompany"
                     value="{data.previousPage}"
                         class="page-link"
                         >Previous</f:form.button
@@ -96,7 +96,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                  <ul class="pagination">
                 <li class="page-item ">
                    <f:form.button
-                    id="previousButton"
+                    id="previousButtonCompany"
                     value="{data.previousPage}"
                         class="page-link"
                         >Previous</f:form.button
@@ -139,7 +139,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                               <li class="page-item disabled">
                     <f:form.button
                     value="{data.currentPage}"
-                            id="nextButton"
+                            id="nextButtonCompany"
                             value="{data.nextPage}"
                                     class="page-link"
                         >Next</f:form.button
@@ -151,7 +151,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                        <li class="page-item">
                  <f:form.button
                     value="{data.nextPage}"
-                            id="nextButton"
+                            id="nextButtonCompany"
                                     class="page-link"
                         >Next</f:form.button
                     >
